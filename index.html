@@ -3,11 +3,68 @@
 <head>
     <meta charset="utf-8">
     <title>개인용</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css">
 </head>
-<body class="darkMode: 'media'">
-    <!-- 추가예정 -->
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm text-center space-y-4">
+        <h1 class="text-2xl font-bold mb-4">회원가입 / 로그인</h1>
+        
+        <!-- 회원가입 버튼 -->
+        <button id="signupBtn" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition disabled:opacity-50" disabled>
+            관리자 회원가입
+        </button>
+
+        <!-- 로그인 버튼 -->
+        <button id="loginBtn" class="w-full bg-gray-300 text-gray-900 px-4 py-2 rounded hover:bg-gray-400 transition dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600">
+            로그인
+        </button>
+    </div>
+
+    <script>
+        const signupBtn = document.getElementById('signupBtn');
+        const loginBtn = document.getElementById('loginBtn');
+
+        // 로컬스토리지 체크
+        const adminRegistered = localStorage.getItem('adminRegistered');
+
+        if (!adminRegistered) {
+            signupBtn.disabled = false;
+        }
+
+        // 일반 회원가입 (관리자 최초 1회)
+        signupBtn.addEventListener('click', () => {
+            const username = prompt("관리자 계정 생성 - 사용자 이름 입력:");
+            const password = prompt("비밀번호 입력:");
+
+            if (username && password) {
+                // 비밀번호 암호화 (SHA256)
+                const hashed = CryptoJS.SHA256(password).toString();
+                localStorage.setItem('adminRegistered', 'true');
+                localStorage.setItem('adminUser', JSON.stringify({username, password: hashed}));
+                alert(`${username}님, 관리자 계정이 생성되었습니다!`);
+                signupBtn.disabled = true;
+            }
+        });
+
+        // 로그인
+        loginBtn.addEventListener('click', () => {
+            const username = prompt("로그인 - 사용자 이름 입력:");
+            const password = prompt("로그인 - 비밀번호 입력:");
+
+            const stored = JSON.parse(localStorage.getItem('adminUser'));
+            if (!stored) return alert("등록된 계정이 없습니다.");
+
+            const hashed = CryptoJS.SHA256(password).toString();
+            if (username === stored.username && hashed === stored.password) {
+                alert(`${username}님, 로그인 성공!`);
+            } else {
+                alert("사용자 이름 또는 비밀번호가 틀렸습니다.");
+            }
+        });
+    </script>
+
 </body>
 </html>
