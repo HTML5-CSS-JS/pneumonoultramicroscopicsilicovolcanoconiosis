@@ -1,10 +1,10 @@
 {
   "name": "my-site",
   "version": "1.0.0",
-  "description": "personal site",
+  "description": "personal static site",
   "main": "index.html",
   "scripts": {
-    "start": "node index.html"
+    "start": "echo 'Static site - no server'"
   },
   "dependencies": {}
 }
