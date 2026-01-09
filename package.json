@@ -2,9 +2,9 @@
   "name": "my-site",
   "version": "1.0.0",
   "description": "personal static site",
-  "main": "index.html",
+  "main": "server.js",
   "scripts": {
-    "start": "echo 'Static site - no server'"
+    "start": "node index.js"
   },
   "dependencies": {}
 }
