@@ -38,3 +38,9 @@ loginBtn.addEventListener('click', () => {
         alert("사용자 이름 또는 비밀번호가 틀렸습니다.");
     }
 });
+// login.js
+// 일반 회원가입(userSignupBtn)과 로그인(loginBtn) 처리 추가
+// 비밀번호는 CryptoJS.SHA256으로 해시하여 localStorage에 저장합니다.
+
+document.addEventListener('DOMContentLoaded', () => {
+  const adminSignupBtn = document.getElementBy
